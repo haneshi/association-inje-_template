@@ -6,18 +6,20 @@
         <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html "
             target="_blank">
             <img src="{{ asset('assets/plugins/img/logo-ct-dark.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">관리자</span>
+            <span class="ms-1 font-weight-bold">협회 관리자</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}" href="{{route('admin.home')}}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <x-tabler-home/>
+                <a class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}"
+                    href="{{ route('admin.home') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <x-tabler-home />
                     </div>
-                    <span class="nav-link-text ms-1">Dashboard</span>
+                    <span class="nav-link-text ms-1">홈</span>
                 </a>
             </li>
         </ul>

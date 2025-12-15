@@ -15,16 +15,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::controller(AdminHomeController::class)
+// Route::controller(AdminHomeController::class)
+//     ->group(function () {
+//         Route::get('/admin', 'index')->name('admin.home');
+//     });
+
+// Route::controller(AdminAuthController::class)
+//     ->group(function () {
+//         Route::get('/admin/login', 'login')->name('admin.login');
+//     });
+
+
+################ Auth ################
+Route::middleware('guest:admin')
+    ->prefix('admin')
     ->group(function () {
-        Route::get('/admin', 'index')->name('admin.home');
+        Route::controller(AdminAuthController::class)
+            ->group(function () {
+                Route::match(['get', 'post'], '/login', 'login')->name('admin.login');
+            });
     });
-
-Route::controller(AdminAuthController::class)
+################ 관리자 라우팅
+Route::middleware('auth.check')
+    ->prefix('admin')
     ->group(function () {
-        Route::get('/admin/login', 'login')->name('admin.login');
+        ########### Auth
+        Route::controller(AdminAuthController::class)
+            ->group(function () {
+                Route::get('/logout', 'logout')->name('admin.logout');
+            });
+        ############# Home
+        Route::controller(AdminHomeController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('admin.home');
+            });
     });
