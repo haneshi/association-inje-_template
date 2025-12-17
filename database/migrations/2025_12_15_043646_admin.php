@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('admin', function (Blueprint $table) {
-            $table->id()->comment('고유값');
-            $table->unsignedTinyInteger('seq')->default(255)->comment('순서');
+            $table->id()->comment('고유값'); 
             $table->string('user_id')->unique()->comment('아이디');
             $table->string('password')->comment('비밀번호');
             $table->string('name')->comment('이름');
