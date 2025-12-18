@@ -28,4 +28,15 @@ class AdminAuthController extends AdminController
     {
         return view('admin.pages.auth.view');
     }
+
+    public function data(Request $req)
+    {
+        if($req->ajax() && $req->isMethod('POST')) {
+            $dataService = new AdminAuthService();
+            return match($req->pType) {
+                'setAccount' => $dataService->setAccount($req),
+                'setPassword' => $dataService->setPassword($req),
+            };
+        }
+    }
 }

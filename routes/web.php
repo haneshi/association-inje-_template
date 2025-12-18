@@ -49,6 +49,7 @@ Route::middleware('auth.check')
             ->group(function () {
                 Route::get('/logout', 'logout')->name('admin.logout');
                 Route::get('/account', 'account')->name('admin.auth.account');
+                Route::post('/data', 'data')->name('admin.auth.data');
             });
         ############# Home
         Route::controller(AdminHomeController::class)

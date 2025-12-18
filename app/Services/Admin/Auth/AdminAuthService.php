@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\HistoryLog;
 use Illuminate\Http\Request;
 use App\Services\Admin\AdminService;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 
 /**
@@ -91,7 +92,91 @@ class AdminAuthService extends AdminService
         ]);
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth()->guard('admin')->logout();
+    }
+
+    public function setAccount(Request $req): array
+    {
+        $data = $req->except(['pType']);
+        $row = Admin::find(config('auth.admin')->id);
+
+        if (!$row) {
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'error',
+                'title' => "내 정보 수정",
+                'content' => "다시 로그인 해주세요.",
+                'event' => [
+                    'type' => 'reload',
+                ],
+            ]);
+        }
+
+        $row->name = $data['name'];
+
+        if ($row->save()) {
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'success',
+                'title' => "내 정보 수정",
+                'content' => "내 정보가 수정 되었습니다.",
+            ]);
+        }
+
+        return $this->returnJsonData('modalAlert', [
+            'type' => 'error',
+            'title' => "내 정보 수정 에러",
+            'content' => "내 정보가 수정 되지 않았습니다."
+        ]);
+    }
+
+    public function setPassword(Request $req): array
+    {
+        $data = $req->except(['pType']);
+        $row = Admin::find(config('auth.admin')->id);
+
+        if (!$row) {
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'error',
+                'title' => "내 정보 수정",
+                'content' => "다시 로그인 해주세요.",
+                'event' => [
+                    'type' => 'reload',
+                ],
+            ]);
+        }
+
+        if (!Hash::check($data['password_current'], $row->password)) {
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'warning',
+                'title' => "현재 비밀번호 틀림",
+                'content' => "현재 비밀번호가 틀립니다. 확인해 주세요!",
+                'event' => [
+                    'type' => 'focus',
+                    'selector' => '#password_current'
+                ],
+            ]);
+        }
+
+        $row->password = Hash::make($data['password']);
+
+        if ($row->save()) {
+            $this->logout();
+
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'success',
+                'title' => "내 비밀번호 수정",
+                'content' => "비밀번호가 수정 되었습니다. 다시 로그인해 주세요!",
+                'event' => [
+                    'type' => 'reload',
+                ],
+            ]);
+        }
+
+        return $this->returnJsonData('modalAlert', [
+            'type' => 'error',
+            'title' => "내 비밀번호 수정 에러",
+            'content' => "내 비밀번호가 수정 되지 않았습니다."
+        ]);
     }
 }

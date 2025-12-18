@@ -17,7 +17,7 @@
         <hr class="horizontal dark">
         <div class="d-flex justify-content-end gap-2">
             <a href="{{ route('admin.setting.member') }}" class="btn btn-outline-secondary">목록으로</a>
-            <button id="submitBtn" type="submit" class="btn btn bg-gradient-warning">관리자 추가</button>
+            <button id="submitBtn" type="submit" class="btn btn bg-gradient-warning">관리자 정보 수정</button>
         </div>
     </div>
 </form>
@@ -28,7 +28,7 @@
         procEditValidator
             .onSuccess((e) => {
                 e.preventDefault();
-                common.ajax.postFormSelector('{{ route('admin.setting.data') }}', '#frm-edit');
+                common.ajax.postFormSelector('{{ route('admin.auth.data') }}', '#frm-edit');
             })
             .addField('#name', [{
                 rule: 'required',
