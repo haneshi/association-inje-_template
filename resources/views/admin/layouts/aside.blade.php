@@ -22,16 +22,18 @@
                     <span class="nav-link-text ms-1">홈</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.setting.member') ? 'active' : '' }}"
-                    href="{{ route('admin.setting.member') }}">
-                    <div
-                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <x-tabler-users/>
-                    </div>
-                    <span class="nav-link-text ms-1">관리자 관리</span>
-                </a>
-            </li>
+            @if (config('auth.isSuper'))
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.setting.member') ? 'active' : '' }}"
+                        href="{{ route('admin.setting.member') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <x-tabler-users />
+                        </div>
+                        <span class="nav-link-text ms-1">관리자 관리</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
     <div class="sidenav-footer mx-3 ">

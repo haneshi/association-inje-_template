@@ -23,6 +23,21 @@ class AdminSettingController extends AdminController
         return view('admin.pages.member.write');
     }
 
+    public function view(int $id)
+    {
+        $this->data['view'] = Admin::getData(['id' => $id]);
+
+        if (!$this->data['view']) {
+            RedirectRoute('admin.setting.member');
+        }
+
+        if ($this->data['view']->id === config('auth.admin')->id || $this->data['view']->auth === 'D') {
+            RedirectRoute('admin.setting.member');
+        }
+
+        return view('admin.pages.member.view', $this->data);
+    }
+
     public function data(Request $req)
     {
         if ($req->ajax() && $req->isMethod('POST')) {

@@ -16,7 +16,7 @@ class AdminSettingService extends AdminService
 {
     public function getList()
     {
-        $query = Admin::orderByRaw('is_active desc, seq asc');
+        $query = Admin::orderByRaw('is_active desc, id asc');
         if (!config('auth.isDevel')) {
             if (!config('auth.isSuper')) {
                 $query = $query->where('is_active', true);
