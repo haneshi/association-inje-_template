@@ -5,9 +5,8 @@
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 ps-2 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="text-white opacity-5" href="javascript:void(0)">Pages</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Profile</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $pageData['title'] }}</li>
                 </ol>
-                <h6 class="text-white font-weight-bolder ms-2">Profile</h6>
             </nav>
             <nav id="navbarBlur">
                 <div class="container-fluid py-1 px-3">

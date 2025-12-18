@@ -22,6 +22,16 @@
                     <span class="nav-link-text ms-1">홈</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.pension') ? 'active' : '' }}"
+                    href="{{ route('admin.pension') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <x-tabler-map />
+                    </div>
+                    <span class="nav-link-text ms-1">펜션 관리</span>
+                </a>
+            </li>
             @if (config('auth.isSuper'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.setting.member') ? 'active' : '' }}"

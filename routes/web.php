@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Home\AdminHomeController;
+use App\Http\Controllers\Admin\Pension\AdminPensionController;
 use App\Http\Controllers\Admin\Setting\AdminSettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,17 +20,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Route::controller(AdminHomeController::class)
-//     ->group(function () {
-//         Route::get('/admin', 'index')->name('admin.home');
-//     });
-
-// Route::controller(AdminAuthController::class)
-//     ->group(function () {
-//         Route::get('/admin/login', 'login')->name('admin.login');
-//     });
-
 
 ################ Auth ################
 Route::middleware('guest:admin')
@@ -64,5 +54,11 @@ Route::middleware('auth.check')
                 Route::get('/write', 'write')->name('admin.setting.member.add');
                 Route::get('/{id}', 'view')->name('admin.setting.member.view');
                 Route::post('/data', 'data')->name('admin.setting.data');
+            });
+        ############# Pension
+        Route::controller(AdminPensionController::class)
+            ->prefix('pension')
+            ->group(function () {
+                Route::get('/', 'index')->name('admin.pension');
             });
     });
