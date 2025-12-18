@@ -319,12 +319,12 @@ const common = {
                 default:
                     apps.layouts.showModalTemplate({
                         type: "error",
-                        size: "sm",
+                        // size: "sm",
                         icon: true,
                         title: "500 에러",
                         content: `서버에러 입니다. 관리자에게 문의 하세요!`,
                         event: {
-                            type: "reload",
+                        type: "reload",
                         },
                     });
                     break;
