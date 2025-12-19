@@ -7,7 +7,6 @@
                     <x-tabler-plus />펜션 추가
                 </a>
             </div>
-
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
@@ -30,16 +29,18 @@
                             @forelse ($dataList as $data)
                                 <tr>
                                     <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
-                                                    class="avatar avatar-sm me-3">
+                                        <a href="{{ route('admin.pension.view', $data->id) }}">
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
+                                                        class="avatar avatar-sm me-3">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-xs">{{ $data->name }}111</h6>
+                                                    <p class="text-xs text-secondary mb-0">{{ $data->owner }}</p>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs">{{ $data->name }}</h6>
-                                                <p class="text-xs text-secondary mb-0">{{ $data->owner }}</p>
-                                            </div>
-                                        </div>
+                                        </a>
                                     </td>
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0">{{ $data->location }}</p>
@@ -53,7 +54,7 @@
                                             class="text-secondary text-xs font-weight-bold">{{ $data->created_at->format('y.m.d') }}</span>
                                     </td>
                                     <td class="align-middle">
-                                        <a {{-- href="{{ route('admin.setting.member.view', $data->id) }}" --}}
+                                        <a href="{{ route('admin.pension.view', $data->id) }}"
                                             class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                             data-original-title="Edit Pension">
                                             자세히 보기
@@ -69,6 +70,13 @@
                     </table>
                 </div>
             </div>
+            @if($dataList->hasPages())
+                <div class="card-footer d-flex align-items-center">
+                    <div class="m-auto"><!-- mx-auto ms-auto -->
+                        {{ $dataList->onEachSide(1)->withQueryString()->links('admin.components.pagination') }}
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>

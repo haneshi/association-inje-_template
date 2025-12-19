@@ -60,5 +60,6 @@ Route::middleware('auth.check')
             ->prefix('pension')
             ->group(function () {
                 Route::get('/', 'index')->name('admin.pension');
+                Route::get('/{id}', 'view')->name('admin.pension.view');
             });
     });
