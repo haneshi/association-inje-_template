@@ -51,7 +51,7 @@ Route::middleware('auth.check')
             ->prefix('member')
             ->group(function () {
                 Route::get('/', 'index')->name('admin.setting.member');
-                Route::get('/write', 'write')->name('admin.setting.member.add');
+                Route::get('/write', 'write')->name('admin.setting.member.write');
                 Route::get('/{id}', 'view')->name('admin.setting.member.view');
                 Route::post('/data', 'data')->name('admin.setting.data');
             });
@@ -60,6 +60,7 @@ Route::middleware('auth.check')
             ->prefix('pension')
             ->group(function () {
                 Route::get('/', 'index')->name('admin.pension');
+                Route::get('/write', 'write')->name('admin.pension.write');
                 Route::get('/{id}', 'view')->name('admin.pension.view');
             });
     });

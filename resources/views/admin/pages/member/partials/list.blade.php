@@ -4,7 +4,7 @@
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                 <h6>관리자 리스트</h6>
                 @can('create', App\Models\Admin::class)
-                    <a href="{{ route('admin.setting.member.add') }}" class="btn btn-sm btn-primary mb-0">
+                    <a href="{{ route('admin.setting.member.write') }}" class="btn btn-sm btn-primary mb-0">
                         <x-tabler-plus />관리자 추가
                     </a>
                 @endcan

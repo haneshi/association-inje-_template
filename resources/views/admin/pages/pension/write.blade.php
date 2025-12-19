@@ -3,7 +3,7 @@
 
 @php
     $pageData = [
-        'title' => '관리자 추가',
+        'title' => '펜션관리 홈',
     ];
 @endphp
 
@@ -14,7 +14,7 @@
 {{-- @section('afterStyle')@endsection --}}
 
 @section('mainContent')
-    @include('admin.pages.member.partials.form.write')
+    {{-- @include('admin.pages.pension.partials.list') --}}
 @endsection
 
 {{-- @section('beforeScript')@endsection --}}

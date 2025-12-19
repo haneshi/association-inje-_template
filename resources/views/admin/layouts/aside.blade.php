@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->routeIs('admin.home*') ? 'active' : '' }}"
                     href="{{ route('admin.home') }}">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.pension') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->routeIs('admin.pension*') ? 'active' : '' }}"
                     href="{{ route('admin.pension') }}">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -34,7 +34,7 @@
             </li>
             @if (config('auth.isSuper'))
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.setting.member') ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->routeIs('admin.setting.member*') ? 'active' : '' }}"
                         href="{{ route('admin.setting.member') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">

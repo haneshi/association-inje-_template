@@ -22,4 +22,9 @@ class AdminPensionController extends AdminController
         $this->data['dataList'] = $service->getPaginate($this->data);
         return view('admin.pages.pension.index', $this->data);
     }
+
+    public function write()
+    {
+        return view('admin.pages.pension.write');
+    }
 }

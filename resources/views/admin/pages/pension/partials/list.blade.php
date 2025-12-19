@@ -3,7 +3,18 @@
         <div class="card">
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                 <h6>협회 펜션 리스트</h6>
-                <a href="{{ route('admin.setting.member.add') }}" class="btn btn-sm btn-primary mb-0">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <form class="col-auto auto" action="{{ route('admin.pension') }}">
+                        <div class="input-icon">
+                            <div class="input-group">
+                                <span class="input-group-text text-body"><x-tabler-search /></span>
+                                <input type="text" id="st" name="st" value="{{ $paramData['st'] }}"
+                                    class="form-control" placeholder="펜션명">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <a href="{{ route('admin.pension.write') }}" class="btn btn-sm btn-primary mb-0">
                     <x-tabler-plus />펜션 추가
                 </a>
             </div>
@@ -36,7 +47,7 @@
                                                         class="avatar avatar-sm me-3">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-xs">{{ $data->name }}111</h6>
+                                                    <h6 class="mb-0 text-xs">{{ $data->name }}</h6>
                                                     <p class="text-xs text-secondary mb-0">{{ $data->owner }}</p>
                                                 </div>
                                             </div>
@@ -70,7 +81,7 @@
                     </table>
                 </div>
             </div>
-            @if($dataList->hasPages())
+            @if ($dataList->hasPages())
                 <div class="card-footer d-flex align-items-center">
                     <div class="m-auto"><!-- mx-auto ms-auto -->
                         {{ $dataList->onEachSide(1)->withQueryString()->links('admin.components.pagination') }}
