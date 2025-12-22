@@ -27,4 +27,13 @@ class AdminPensionController extends AdminController
     {
         return view('admin.pages.pension.write');
     }
+
+    public function data(Request $req) {
+        if($req->ajax() && $req->isMethod('post')) {
+            $service = new AdminPensionService();
+            return match($req->pType) {
+                'addPension' => $service->addPension($req),
+            };
+        }
+    }
 }

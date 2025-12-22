@@ -62,5 +62,6 @@ Route::middleware('auth.check')
                 Route::get('/', 'index')->name('admin.pension');
                 Route::get('/write', 'write')->name('admin.pension.write');
                 Route::get('/{id}', 'view')->name('admin.pension.view');
+                Route::post('/data', 'data')->name('admin.pension.data');
             });
     });

@@ -4,6 +4,7 @@ namespace App\Services\Admin\Pension;
 
 use App\Models\Pension;
 use App\Services\Admin\AdminService;
+use Illuminate\Http\Request;
 
 /**
  * Class AdminPensionService
@@ -21,5 +22,9 @@ class AdminPensionService extends AdminService
             });
         }
         return $query->paginate($paginate);
+    }
+
+    public function addPension(Request $req) {
+        dd($req);
     }
 }
