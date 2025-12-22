@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'location' => [
+    'locations' => [
         'location1' => '지역1',
         'location2' => '지역2',
         'location3' => '지역3',
