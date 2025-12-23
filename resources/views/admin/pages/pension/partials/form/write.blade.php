@@ -151,26 +151,26 @@
 
                     common.ajax.postFormData('{{ route('admin.pension.data') }}', formData);
                 })
-                .addField('#name', [{
-                    rule: 'required',
-                    errorMessage: '펜션명을 입력해주세요.',
-                }, ])
-                .addField('#owner', [{
-                    rule: 'required',
-                    errorMessage: '관리자 이름을 입력해주세요!'
-                }, ])
-                .addField('#tel', [{
-                    rule: 'required',
-                    errorMessage: '펜션 전화번호를 입력해주세요!'
-                }, ])
-                .addField('#reservation_key', [{
-                    rule: 'required',
-                    errorMessage: '예약시스템 키를 입력해주세요!'
-                }, ])
-                .addField('#address_basic', [{
-                    rule: 'required',
-                    errorMessage: '주소를 입력해주세요!'
-                }, ]);
+                // .addField('#name', [{
+                //     rule: 'required',
+                //     errorMessage: '펜션명을 입력해주세요.',
+                // }, ])
+                // .addField('#owner', [{
+                //     rule: 'required',
+                //     errorMessage: '관리자 이름을 입력해주세요!'
+                // }, ])
+                // .addField('#tel', [{
+                //     rule: 'required',
+                //     errorMessage: '펜션 전화번호를 입력해주세요!'
+                // }, ])
+                // .addField('#reservation_key', [{
+                //     rule: 'required',
+                //     errorMessage: '예약시스템 키를 입력해주세요!'
+                // }, ])
+                // .addField('#address_basic', [{
+                //     rule: 'required',
+                //     errorMessage: '주소를 입력해주세요!'
+                // }, ]);
         });
     </script>
 @endsection

@@ -2,13 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\GlobalScopes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Pension extends Model
 {
-    use HasFactory;
+    use HasFactory, GlobalScopes;
 
     protected $table = "pension";
     protected $guarded = [];
+
+
+    public function files() : MorphMany
+    {
+        return $this->morphMany(DataFile::class, 'fileable')->orderBy('seq');
+    }
 }

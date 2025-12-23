@@ -28,4 +28,7 @@ $ composer require ryangjchandler/blade-tabler-icons
 
 # 개발확인 모바일에서 와이파이의 IP주소로 접근
 $ php artisan serve --host=0.0.0.0 --port=8000
+
+# 이미지 처리 패키지
+$ composer require intervention/image
 ```

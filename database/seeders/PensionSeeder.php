@@ -10,7 +10,7 @@ class PensionSeeder extends Seeder
 {
     public function run(): void
     {
-        $locations = array_keys(config('sites.location'));
+        $locations = array_keys(config('sites.locations'));
         $pensions = [
             [
                 'seq' => 1,
