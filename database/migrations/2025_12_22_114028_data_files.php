@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->unsignedTinyInteger('seq')->default(255)->comment('정렬 순서');
 
-            $table->string('path')->comment('파일경로');
+            $table->string('file_path')->comment('파일경로');
             $table->string('filename')->comment('파일명');
             $table->string('mime_type')->comment('MIME 타입');
 

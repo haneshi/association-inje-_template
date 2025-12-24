@@ -32,10 +32,11 @@ class AdminPensionService extends AdminService
 
         DB::beginTransaction();
 
+        // dd($req->file('images'));
+
         try {
-            $data = $req->except(['pType']);
+            $data = $req->except(['pType', 'images']);
             $data['is_active'] = $req->boolean('is_active');
-            # dd($req->hasFile('images'), $req); true
 
             if ($data['is_active'] === true) {
                 $data['seq'] = Pension::where('is_active', 1)->count() + 1;
@@ -45,34 +46,22 @@ class AdminPensionService extends AdminService
 
             if ($req->hasFile('images')) {
                 $images = $req->file('images');
-                $uploadedCount = 0;
-                $failedCount = 0;
-
-                foreach ($images as $index => $image) {
-                    $seq = $index + 1;
-
+                $imagesCount = count($images);
+                foreach ($images as $image) {
                     $tempImage = ImageUploadHelper::upload(
                         $image,
                         'pension/' . $pension->id . '/main',
                         ['width' => 1920],
-                        $seq
+                        $imagesCount
                     );
-
-                    if ($tempImage && $pension->files()->create($tempImage)) {
-                        $uploadedCount++;
-                    } else {
-                        $failedCount++;
+                    if ($tempImage) {
+                        if ($pension->files()->create($tempImage)) {
+                            $imagesCount++;
+                        }
                     }
                 }
-
-                if ($failedCount > 0 && $uploadedCount === 0) {
-                    // 모든 이미지가 실패한 경우
-                    throw new \Exception('모든 이미지 업로드에 실패했습니다.');
-                }
             }
-
             DB::commit();
-
             return $this->returnJsonData('toastAlert', [
                 'type' => 'success',
                 'delay' => 1000,
@@ -83,9 +72,9 @@ class AdminPensionService extends AdminService
                     'url' => route('admin.pension'),
                 ],
             ]);
+
         } catch (\Exception $e) {
             DB::rollBack();
-
             $pensionLog = new Pension();
             $pensionLog->setHistoryLog([
                 'type' => 'error',
@@ -101,11 +90,4 @@ class AdminPensionService extends AdminService
             ]);
         }
     }
-}
-
-
-
-
-{
-    "error": "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'images' in 'INSERT INTO' (Connection: mysql, SQL: insert into `pension` (`name`, `owner`, `tel`, `reservation_key`, `address_basic`, `address_detail`, `post`, `address_local`, `address_jibun`, `lat`, `lng`, `is_active`, `location`, `images`, `seq`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, location5, ?, 8, 2025-12-23 03:03:04, 2025-12-23 03:03:04))"
 }
