@@ -28,6 +28,8 @@ class AdminPensionController extends AdminController
     {
         $this->data['pension'] = Pension::getData(['id' => $id]);
 
+        $this->data['files'] = $this->data['pension']->files;
+
         return view('admin.pages.pension.view', $this->data);
     }
     public function write()

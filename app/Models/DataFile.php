@@ -15,4 +15,9 @@ class DataFile extends Model
     {
         return $this->morphTo();
     }
+
+    public function getPreviewAttribute()
+    {
+        return $this->file_path ? asset('data/'.$this->file_path): null;
+    }
 }
