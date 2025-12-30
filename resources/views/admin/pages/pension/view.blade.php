@@ -14,9 +14,30 @@
 {{-- @section('afterStyle')@endsection --}}
 
 @section('mainContent')
-    @include('admin.pages.pension.partials.form.edit')
+    <div class="row">
+        <div class="flex-fill">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs" role="tablist">
+                        <li class="nav-item">
+                            <a href="#tab-pension" class="nav-link active" data-bs-toggle="tab">
+                                <x-tabler-building />
+                                <span>{{ $pension->name }} 정보</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="tab-pension">
+                        <div class="tab-pane active show" id="tab-pension">
+                            @include('admin.pages.pension.partials.form.pensionEdit')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 {{-- @section('beforeScript')@endsection --}}
 {{-- @section('afterScript') @endsection --}}
-
