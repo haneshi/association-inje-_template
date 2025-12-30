@@ -4,6 +4,7 @@
 @php
     $pageData = [
         'title' => '내 정보',
+        'name' => config('auth.admin')->name . '정보',
     ];
 @endphp
 

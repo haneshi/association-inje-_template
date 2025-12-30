@@ -4,6 +4,7 @@
 @php
     $pageData = [
         'title' => '펜션 상세정보',
+        'name' => $pension->name . ' 상세정보',
     ];
 @endphp
 
@@ -22,7 +23,7 @@
                         <li class="nav-item">
                             <a href="#tab-pension" class="nav-link active" data-bs-toggle="tab">
                                 <x-tabler-building />
-                                <span>{{ $pension->name }} 정보</span>
+                                <span>기본정보</span>
                             </a>
                         </li>
                     </ul>

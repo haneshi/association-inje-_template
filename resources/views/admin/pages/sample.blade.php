@@ -4,6 +4,7 @@
 @php
     $pageData = [
         'title' => '관리자 홈',
+        'name' => '샘플 페이지 네임',
     ];
 @endphp
 

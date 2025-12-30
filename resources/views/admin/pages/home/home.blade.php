@@ -4,6 +4,7 @@
 @php
     $pageData = [
         'title' => '협회 관리자',
+        'name' => '협회 관리자 홈',
     ];
 @endphp
 

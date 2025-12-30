@@ -4,6 +4,7 @@
 @php
     $pageData = [
         'title' => '관리자 정보',
+        'name' => $view->name . ' 상세정보',
     ];
 @endphp
 
