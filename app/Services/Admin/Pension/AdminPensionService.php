@@ -195,4 +195,39 @@ class AdminPensionService extends AdminService
             ],
         ]);
     }
+
+    public function deleteImages(Request $req)
+    {
+        $data = $req->only('id');
+        $dataFile = DataFile::find($data['id']);
+        if(!$dataFile) {
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'error',
+                'title' => '이미지 삭제에러',
+                'content' => '이미 삭제된 이미지 입니다.',
+                'event' => [
+                    'type' => 'reload',
+                ]
+            ]);
+        }
+
+        $origin = $dataFile->getOriginal();
+        if($dataFile->delete()) {
+            $this->deleteStorageData($origin['file_path']);
+            return $this->returnJsonData('toastAlert', [
+                'type' => 'success',
+                'delay' => 1000,
+                'delayMask' => true,
+                'title' => '이미지 삭제 성공',
+                'event' => [
+                    'type' => 'reload',
+                ],
+            ]);
+        }
+        return $this->returnJsonData('modalAlert', [
+            'type' => 'error',
+            'title' => "이미지 삭제 에러",
+            'content' => "이미지 삭제 되지 않았습니다."
+        ]);
+    }
 }

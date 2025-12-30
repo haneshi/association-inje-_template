@@ -38,8 +38,9 @@ class Service
         return JsonEncode($data);
     }
 
-    protected function setJsonData($data, $value = null) {
-        if(!is_array($data)) {
+    protected function setJsonData($data, $value = null)
+    {
+        if (!is_array($data)) {
             $this->jsonData[$data] = $value;
         } else {
             foreach ($data as $key => $val) {
@@ -49,7 +50,8 @@ class Service
     }
 
 
-    protected function returnJson() {
+    protected function returnJson()
+    {
         return $this->jsonData;
     }
 
@@ -59,7 +61,8 @@ class Service
         return $this->returnJson();
     }
 
-    protected function isImageType($mime_type) {
+    protected function isImageType($mime_type)
+    {
         if (Str::startsWith($mime_type, 'image/')) {
             return true;
         }
@@ -73,20 +76,21 @@ class Service
         $imageManager = new ImageManager(new Driver());
         $img = $imageManager->read($fullPath);
 
-        if($img->width() > $maxWidth) {
-            $img->scale(width : $maxWidth);
+        if ($img->width() > $maxWidth) {
+            $img->scale(width: $maxWidth);
             $img->save($fullPath);
         }
 
         return $img;
     }
 
-    protected function setImageThumb(ImageInterface $img, string $path, int $thumbWidth = 600) {
+    protected function setImageThumb(ImageInterface $img, string $path, int $thumbWidth = 600)
+    {
         $pathInfo = GetFolderFileName($path);
         $thumbImg = clone $img;
 
-        if($thumbImg->width() > $thumbWidth) {
-            $thumbImg->scale(width : $thumbWidth);
+        if ($thumbImg->width() > $thumbWidth) {
+            $thumbImg->scale(width: $thumbWidth);
         }
 
         $thumbPath = $pathInfo['directory'] . '/thumb';
@@ -96,27 +100,28 @@ class Service
         $thumbImg->save(Storage::path($thumbPath . '/' . $pathInfo['filename']));
     }
 
-    protected function getFileName(UploadedFile $file, int $count) {
+    protected function getFileName(UploadedFile $file, int $count)
+    {
         $datetime = date('YmdHis');
-        return $datetime . $count . '.'.$file->getClientOriginalExtension();
+        return $datetime . $count . '.' . $file->getClientOriginalExtension();
     }
 
-    protected function uploadFile(UploadedFile $file, string $folderPath, int $thumbWidth = 0) : array
+    protected function uploadFile(UploadedFile $file, string $folderPath, int $thumbWidth = 0): array
     {
         $data = [];
-        if($file instanceof UploadedFile) {
+        if ($file instanceof UploadedFile) {
             $fileName = $this->getFileName($file, 1);
             $path = $file->storeAs($folderPath, $fileName);
             $mime_type = $file->getMimeType();
 
-            if($this->isImageType($mime_type)) {
+            if ($this->isImageType($mime_type)) {
                 $img = $this->resizeImage($path);
-                if($thumbWidth > 0) {
+                if ($thumbWidth > 0) {
                     $this->setImageThumb($img, $path, $thumbWidth);
                 }
             }
 
-            if($path) {
+            if ($path) {
                 $data = [
                     'path' => $path,
                     'filename' => $file->getClientOriginalName(),
@@ -129,16 +134,11 @@ class Service
         return $data;
     }
 
-    protected function deleteStorageData(string $path) {
-        if($path) {
-            if(Storage::exists($path)) {
-                Storage::delete($path);
-
-                $thumbnailPath = GetThumbnailPath($path);
-                if(Storage::exists($thumbnailPath)) {
-                    Storage::delete($thumbnailPath);
-                }
-
+    protected function deleteStorageData(mixed $path): bool
+    {
+        if ($path) {
+            if (Storage::exists('data/' . $path)) {
+                Storage::delete('data/' . $path);
                 return true;
             }
         }

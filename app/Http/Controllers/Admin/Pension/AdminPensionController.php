@@ -46,6 +46,7 @@ class AdminPensionController extends AdminController
                 'addPension' => $service->addPension($req),
                 'setPension' => $service->setPension($req),
                 'setImagesSeq' => $service->setImagesSeq($req),
+                'deleteImages' => $service->deleteImages($req),
             };
         }
     }
