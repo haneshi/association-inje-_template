@@ -45,6 +45,7 @@ class AdminPensionController extends AdminController
             return match($req->pType) {
                 'addPension' => $service->addPension($req),
                 'setPension' => $service->setPension($req),
+                'setImagesSeq' => $service->setImagesSeq($req),
             };
         }
     }
