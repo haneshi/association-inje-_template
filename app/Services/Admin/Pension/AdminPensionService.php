@@ -131,8 +131,7 @@ class AdminPensionService extends AdminService
 
             // 사용유무 처리 로직
             if ($origin['is_active'] == 1 && $data['is_active'] == 0) {
-                Pension::active()->where('seq', '>', $pension->seq)->decrement('seq');
-                $data['seq'] = 255;
+                $data['seq'] = 9999;
             } elseif ($origin['is_active'] == 0 && $data['is_active'] == 1) {
                 $data['seq'] = Pension::active()->count() + 1;
             }
