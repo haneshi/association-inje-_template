@@ -128,12 +128,16 @@ class AdminPensionService extends AdminService
                 }
             }
             $origin = $pension->getOriginal();
+
+            // 사용유무 처리 로직
             if ($origin['is_active'] == 1 && $data['is_active'] == 0) {
                 Pension::active()->where('seq', '>', $pension->seq)->decrement('seq');
                 $data['seq'] = 255;
             } elseif ($origin['is_active'] == 0 && $data['is_active'] == 1) {
                 $data['seq'] = Pension::active()->count() + 1;
             }
+            // 순서 변경로직
+            $this->setSeq($pension, $data);
             if ($pension->update($data)) {
                 DB::commit();
                 return $this->returnJsonData('toastAlert', [

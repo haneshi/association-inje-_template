@@ -23,4 +23,24 @@ class AdminService extends Service
     {
         return $this->guard()->user();
     }
+
+    protected function setSeq($row, array $data)
+    {
+        $oldSeq = $row->seq;
+        $newSeq = $data['seq'] ?? $oldSeq;
+        if ($oldSeq < $newSeq) {
+            $row->where('is_active', true)
+                ->where('id', '!=', $row->id)
+                ->where('seq', '>', $row->seq)
+                ->where('seq', '<=', $data['seq'])
+                ->decrement('seq');
+        } else {
+            $row->where('is_active', true)
+                ->where('id', '!=', $row->id)
+                ->where('seq', '<', $row->seq)
+                ->where('seq', '>=', $data['seq'])
+                ->increment('seq');
+        }
+        $row->seq = $newSeq;
+    }
 }

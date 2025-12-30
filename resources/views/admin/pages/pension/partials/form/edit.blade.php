@@ -18,23 +18,25 @@
                         <label for="{{ $k }}" class="btn btn-primary">{{ $location }}</label>
                     @endforeach
                 </div>
-                @if ($pension->is_active)
-                    <div class="form-group w-50">
-                        <label for="seq" class="form-label">순서</label>
-                        <select name="seq" id="seq" class="form-select mb-3 tomselected ts-hidden-accessible">
-                            @foreach ($pensions as $item)
-                                <option value="{{ $item->seq }}" @if ($pension->seq === $item->seq) selected @endif>
-                                    {{ $item->seq }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                @endif
             </div>
             <div class="card-body">
                 <form id="frm" autocomplete="off" novalidate>
                     <input type="hidden" name="pType" value="setPension">
                     <input type="hidden" name="id" value="{{ $pension->id }}">
+                    @if ($pension->is_active)
+                        <div class="col-md-2">
+                            <label for="seq" class="form-label">순서</label>
+                            <select name="seq" id="seq"
+                                class="form-select mb-3 tomselected ts-hidden-accessible">
+                                @foreach ($pensions as $item)
+                                    <option value="{{ $item->seq }}"
+                                        @if ($pension->seq === $item->seq) selected @endif>
+                                        {{ $item->seq }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
