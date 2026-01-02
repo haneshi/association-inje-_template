@@ -10,7 +10,29 @@
 
 @section('title', "| {$pageData['title']}")
 
-{{-- @section('beforeStyle')@endsection --}}
+@section('beforeStyle')
+    <link rel="stylesheet" href="{{ asset('assets/plugins/uppy/uppy.min.css') }}?v={{ env('SITES_ADMIN_ASSETS_VERSION') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/tagify/tagify.css') }}?v={{ env('SITES_ADMIN_ASSETS_VERSION') }}">
+    <style>
+        /* 태그 배경색 */
+        .tagify {
+            /* --tag-bg: #f97316 !important; */
+        }
+
+        /* 인풋 크기조절 */
+        .tagify__input {
+            all: unset !important;
+            min-height: 1.5h !important;
+            white-space: pre-wrap !important;
+            position: relative !important;
+        }
+
+        /* 태그 크기조절 */
+        .tagify__tag {
+            margin-block: 0px !important;
+        }
+    </style>
+@endsection
 
 {{-- @section('afterStyle')@endsection --}}
 
@@ -57,6 +79,7 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=49f49d684621b554bb7e4382786b3e46&libraries=services"></script>
     <script src="{{ asset('assets/plugins/uppy/uppy.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/tagify/tagify.min.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const uppy_pension_edit = new Uppy.Uppy({

@@ -1,7 +1,3 @@
-@section('beforeStyle')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/uppy/uppy.min.css') }}?v={{ env('SITES_ADMIN_ASSETS_VERSION') }}">
-@endsection
-
 <div class="row">
     <div class="flex-fill">
         <div class="card">

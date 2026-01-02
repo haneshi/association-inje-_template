@@ -230,4 +230,10 @@ class AdminPensionService extends AdminService
             'content' => "이미지 삭제 되지 않았습니다."
         ]);
     }
+
+    ###################### 객실 서비스 로직
+    public function addRoom(Request $req)
+    {
+        dd($req);
+    }
 }
