@@ -7,6 +7,7 @@ use App\Models\Pension;
 use Illuminate\Http\Request;
 use App\Helper\ImageUploadHelper;
 use App\Models\DataFile;
+use App\Models\PensionRoom;
 use Illuminate\Support\Facades\DB;
 use App\Services\Admin\AdminService;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,11 @@ class AdminPensionService extends AdminService
             return null;
 
         return Pension::where($where)->first();
+    }
+
+    public function getPension($pansion_id): Model
+    {
+        return Pension::find($pansion_id);
     }
     public function getPaginate(array $arrData, int $paginate = 5)
     {
@@ -200,7 +206,7 @@ class AdminPensionService extends AdminService
     {
         $data = $req->only('id');
         $dataFile = DataFile::find($data['id']);
-        if(!$dataFile) {
+        if (!$dataFile) {
             return $this->returnJsonData('modalAlert', [
                 'type' => 'error',
                 'title' => '이미지 삭제에러',
@@ -212,7 +218,7 @@ class AdminPensionService extends AdminService
         }
 
         $origin = $dataFile->getOriginal();
-        if($dataFile->delete()) {
+        if ($dataFile->delete()) {
             $this->deleteStorageData($origin['file_path']);
             return $this->returnJsonData('toastAlert', [
                 'type' => 'success',
@@ -234,6 +240,61 @@ class AdminPensionService extends AdminService
     ###################### 객실 서비스 로직
     public function addRoom(Request $req)
     {
-        dd($req);
+        DB::beginTransaction();
+        try {
+            $data = $req->except(['pType', 'images']);
+            $data['amenities'] = json_decode($req->input('amenities'), true);
+            $data['is_active'] = $req->boolean('is_active');
+            $pension = $this->getPension($req->pension_id);
+            if ($data['is_active'] === true) {
+                $data['seq'] = PensionRoom::where('pension_id', $pension->id)
+                    ->where('is_active', true)
+                    ->count() + 1;
+            }
+            $room = PensionRoom::create($data);
+            if ($req->hasFile('images')) {
+                $images = $req->file('images');
+                $imagesCount = count($images);
+                foreach ($images as $image) {
+                    $tempImage = ImageUploadHelper::upload(
+                        $image,
+                        'pension/' . $pension->id . '/room',
+                        ['width' => 1920],
+                        $imagesCount
+                    );
+                    if ($tempImage) {
+                        if ($room->files()->create($tempImage)) {
+                            $imagesCount++;
+                        }
+                    }
+                }
+            }
+            DB::commit();
+            return $this->returnJsonData('toastAlert', [
+                'type' => 'success',
+                'delay' => 1000,
+                'delayMask' => true,
+                'title' => '객실 등록 성공',
+                'event' => [
+                    'type' => 'replace',
+                    'url' => route('admin.pension'),
+                ],
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $roomLog = new Pension();
+            $roomLog->setHistoryLog([
+                'type' => 'error',
+                'description' => "객실 추가 에러",
+                'queryData' => $this->json_encode($data),
+                'rowData' => JsonEncode(['error' => $e->getMessage()]),
+            ], $this->user());
+
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'error',
+                'title' => "객실 추가 에러",
+                'content' => "객실이 추가 되지 않았습니다. <br> 관리자에게 문의해 주세요!",
+            ]);
+        }
     }
 }

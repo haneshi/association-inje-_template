@@ -12,26 +12,6 @@
 
 @section('beforeStyle')
     <link rel="stylesheet" href="{{ asset('assets/plugins/uppy/uppy.min.css') }}?v={{ env('SITES_ADMIN_ASSETS_VERSION') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/tagify/tagify.css') }}?v={{ env('SITES_ADMIN_ASSETS_VERSION') }}">
-    <style>
-        /* 태그 배경색 */
-        .tagify {
-            /* --tag-bg: #f97316 !important; */
-        }
-
-        /* 인풋 크기조절 */
-        .tagify__input {
-            all: unset !important;
-            min-height: 1.5h !important;
-            white-space: pre-wrap !important;
-            position: relative !important;
-        }
-
-        /* 태그 크기조절 */
-        .tagify__tag {
-            margin-block: 0px !important;
-        }
-    </style>
 @endsection
 
 {{-- @section('afterStyle')@endsection --}}
@@ -48,6 +28,15 @@
                                 <span>기본정보</span>
                             </a>
                         </li>
+
+                        @foreach ($rooms as $room)
+                            <li class="nav-item">
+                                <a href="#tab-pension{{ $room->id }}" class="nav-link" data-bs-toggle="tab">
+                                    <x-tabler-building style="width: 0.8rem;" />
+                                    <span>{{ $room->name }}</span>
+                                </a>
+                            </li>
+                        @endforeach
 
                         <li class="nav-item ms-auto">
                             <a href="#tab-write-room" class="nav-link" data-bs-toggle="tab">

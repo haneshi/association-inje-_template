@@ -1,6 +1,3 @@
-@section('beforeStyle')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/uppy/uppy.min.css') }}?v={{ env('SITES_ADMIN_ASSETS_VERSION') }}">
-@endsection
 <form id="frm-pension-edit" autocomplete="off" novalidate>
     <input type="hidden" name="pType" value="setPension">
     <input type="hidden" name="id" value="{{ $pension->id }}">
@@ -87,7 +84,7 @@
                 <small>5개 이상일때는 우선 5개 업로드 후 추가해 주세요!</small>
             </div>
             <div class="mb-1 p-2">
-                @include('admin.pages.pension.partials.photos')
+                @include('admin.pages.pension.partials.photos', ['files' => $pensionFiles])
             </div>
             <div id="drop-area"></div>
         </div>

@@ -1,5 +1,28 @@
+@section('afterStyle')
+    <link rel="stylesheet" href="{{ asset('assets/plugins/tagify/tagify.css') }}?v={{ env('SITES_ADMIN_ASSETS_VERSION') }}">
+    <style>
+        /* 태그 배경색 */
+        .tagify {
+            /* --tag-bg: #f97316 !important; */
+        }
+
+        /* 인풋 크기조절 */
+        .tagify__input {
+            all: unset !important;
+            min-height: 1.5h !important;
+            white-space: pre-wrap !important;
+            position: relative !important;
+        }
+
+        /* 태그 크기조절 */
+        .tagify__tag {
+            margin-block: 0px !important;
+        }
+    </style>
+@endsection
 <form id="frm-room-write" autocomplete="off" novalidate>
     <input type="hidden" name="pType" value="addRoom">
+    <input type="hidden" name="pension_id" value="{{ $pension->id }}">
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
@@ -33,7 +56,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="area2" class="form-control-label">객실 면적(평)</label>
-                <input class="form-control" type="text" id="area2" name="area2" readonly disabled>
+                <input class="form-control" type="text" id="area2" name="area2" readonly>
             </div>
         </div>
         <div class="col-md-6">
@@ -115,7 +138,7 @@
 
                 if (!isNaN(sqMeters) && sqMeters > 0) {
                     const pyeong = (sqMeters / 3.3058).toFixed(2);
-                    area2Input.value = pyeong + '평';
+                    area2Input.value = pyeong;
                 } else {
                     area2Input.value = '';
                 }
@@ -134,9 +157,6 @@
                 files.forEach((file, index) => {
                     formData.append(`images[${index}]`, file.data);
                 });
-
-                const location = document.querySelector('input[name="location"]:checked').value;
-                formData.append('location', location);
 
                 const amenitiesData = tagify.value;
                 const amenities = amenitiesData.map(tag => tag.value);

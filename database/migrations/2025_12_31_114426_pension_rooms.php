@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::create('pension_room', function (Blueprint $table) {
+        Schema::create('pension_rooms', function (Blueprint $table) {
             $table->id()->comment('객실 고유값');
             $table->smallInteger('seq')->default(9999)->comment('순서');
             $table->unsignedBigInteger('pension_id')->comment('펜션고유값');
@@ -25,7 +25,7 @@ return new class extends Migration
 
             $table->json('amenities')->comment('구비시설(jsonData 형식)'); // json 데이터 형식
 
-            $table->string('etc')->comment('특이사항');
+            $table->string('etc')->nullable()->comment('특이사항');
             $table->integer('person_min')->comment('기준인원');
             $table->integer('person_max')->comment('최대인원');
             $table->boolean('is_active')->default(true)->comment('사용유무');
@@ -41,6 +41,6 @@ return new class extends Migration
     public function down(): void
     {
         //
-        Schema::dropIfExists('pension_room');
+        Schema::dropIfExists('pension_rooms');
     }
 };

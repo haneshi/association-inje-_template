@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Pension;
 
 use App\Models\Pension;
+use App\Models\PensionRoom;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\Services\Admin\Pension\AdminPensionService;
@@ -30,7 +31,10 @@ class AdminPensionController extends AdminController
         $this->data['paramData'] = $this->getParamData($req);
         $this->data['pension'] = Pension::getData(['id' => $id]);
         $this->data['pensions'] = pension::where('is_active', true)->orderBy('seq')->get();
-        $this->data['files'] = $this->data['pension']->files;
+        $this->data['pensionFiles'] = $this->data['pension']->files;
+
+        $this->data['rooms'] = $this->data['pension']->rooms;
+        $this->data['roomFiles'] = $this->data['pension']->rooms->flatMap->files;
 
         return view('admin.pages.pension.view', $this->data);
     }
@@ -40,10 +44,11 @@ class AdminPensionController extends AdminController
         return view('admin.pages.pension.write', $this->data);
     }
 
-    public function data(Request $req) {
-        if($req->ajax() && $req->isMethod('post')) {
+    public function data(Request $req)
+    {
+        if ($req->ajax() && $req->isMethod('post')) {
             $service = new AdminPensionService();
-            return match($req->pType) {
+            return match ($req->pType) {
                 'addPension' => $service->addPension($req),
                 'setPension' => $service->setPension($req),
                 'setImagesSeq' => $service->setImagesSeq($req),

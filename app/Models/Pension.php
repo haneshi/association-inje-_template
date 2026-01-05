@@ -6,6 +6,7 @@ use App\Traits\GlobalScopes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pension extends Model
@@ -24,5 +25,10 @@ class Pension extends Model
     public function scopeActive($query): Builder
     {
         return $query->where('is_active', 1);
+    }
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(PensionRoom::class, 'pension_id', 'id');
     }
 }
