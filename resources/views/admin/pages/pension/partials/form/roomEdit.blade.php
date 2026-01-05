@@ -73,7 +73,7 @@
                 <small>5개 이상일때는 우선 5개 업로드 후 추가해 주세요!</small>
             </div>
             <div class="mb-1 p-2">
-                @include('admin.pages.pension.partials.photos', ['files' => $roomFiles])
+                @include('admin.pages.pension.partials.photos', ['files' => $room->files])
             </div>
             <div id="drop-area-room-edit{{ $room->id }}">
             </div>
