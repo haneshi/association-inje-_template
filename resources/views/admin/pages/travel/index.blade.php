@@ -3,8 +3,8 @@
 
 @php
     $pageData = [
-        'title' => '관리자 홈',
-        'name' => '샘플 페이지 네임',
+        'title' => '관광지',
+        'name' => '관광지 리스트',
     ];
 @endphp
 
@@ -15,7 +15,7 @@
 {{-- @section('afterStyle')@endsection --}}
 
 @section('mainContent')
-    {{-- @include('admin.pages. .partials.list') --}}
+    @include('admin.pages.travel.partials.list')
 @endsection
 
 {{-- @section('beforeScript')@endsection --}}

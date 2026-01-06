@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label for="address_basic" class="form-control-label">주소<span class="text-danger">*</span></label>
                 <input class="form-control" type="text" id="address_basic" name="address_basic"
-                    value="{{ $pension->address_basic }}" onclick="searchPostcode()" required>
+                    value="{{ $pension->address_basic }}" onclick="searchPostcode()" required readonly>
             </div>
         </div>
         <div class="col-md-6">
