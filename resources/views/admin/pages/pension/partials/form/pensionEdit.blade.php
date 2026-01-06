@@ -111,7 +111,8 @@
     <script>
         var cleave = new Cleave('#tel', {
             phone: true,
-            phoneRegionCode: 'KR'
+            phoneRegionCode: 'KR',
+            delimiter: '-',
         });
         document.addEventListener('DOMContentLoaded', function() {
             // 펜션 기본정보 uppy

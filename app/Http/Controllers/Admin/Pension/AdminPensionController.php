@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Pension;
 
 use App\Models\Pension;
-use App\Models\PensionRoom;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\Services\Admin\Pension\AdminPensionService;

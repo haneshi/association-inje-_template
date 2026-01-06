@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Home\AdminHomeController;
+use App\Http\Controllers\Admin\Travel\AdminTravelController;
 use App\Http\Controllers\Admin\Pension\AdminPensionController;
 use App\Http\Controllers\Admin\Setting\AdminSettingController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,5 +64,14 @@ Route::middleware('auth.check')
                 Route::get('/write', 'write')->name('admin.pension.write');
                 Route::get('/{id}', 'view')->name('admin.pension.view');
                 Route::post('/data', 'data')->name('admin.pension.data');
+            });
+        ############# Travel
+        Route::controller(AdminTravelController::class)
+            ->prefix('travel')
+            ->group(function () {
+                Route::get('/', 'index')->name('admin.travel');
+                // Route::get('/write', 'write')->name('admin.pension.write');
+                // Route::get('/{id}', 'view')->name('admin.pension.view');
+                // Route::post('/data', 'data')->name('admin.pension.data');
             });
     });
