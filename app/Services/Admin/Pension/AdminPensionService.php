@@ -267,7 +267,7 @@ class AdminPensionService extends AdminService
             $data = $req->except(['pType', 'images', 'pension_id']);
             $data['amenities'] = json_decode($req->input('amenities'), true);
             $data['is_active'] = $req->boolean('is_active');
-            $origin = $pension->getOriginal();
+            $origin = $room->getOriginal();
 
             // 사용유무 처리 로직
             if ($origin['is_active'] == 1 && $data['is_active'] == 0) {

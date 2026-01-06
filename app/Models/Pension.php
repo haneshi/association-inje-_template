@@ -32,4 +32,12 @@ class Pension extends Model
         return $this->hasMany(PensionRoom::class, 'pension_id', 'id')
             ->orderBy('seq', 'asc');
     }
+
+    public function getPreviewAttribute()
+    {
+        $file = $this->morphOne(DataFile::class, 'fileable')
+            ->orderBy('seq', 'asc')
+            ->first();
+        return $file ? asset('data/' . $file->file_path) : null;
+    }
 }

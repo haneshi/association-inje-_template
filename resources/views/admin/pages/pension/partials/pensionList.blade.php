@@ -43,7 +43,7 @@
                                         <a href="{{ route('admin.pension.view', ['id' => $data->id] + request()->query()) }}">
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
+                                                    <img src="{{ $data->preview ?? asset('assets/img/bg/no-image.jpg') }}"
                                                         class="avatar avatar-sm me-3">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">

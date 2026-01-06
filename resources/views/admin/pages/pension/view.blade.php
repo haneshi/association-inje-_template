@@ -30,14 +30,15 @@
                             </a>
                         </li>
                         @foreach ($rooms as $room)
-                            <li class="nav-item" data-id="{{ $room->id }}">
-                                <a href="#tab-room-{{ $room->id }}" class="nav-link" data-bs-toggle="tab">
-                                    <x-tabler-arrows-move class="handle" style="width: 0.8rem;" />
+                            <li class="nav-item {{ $room->is_active ? '' : 'filtered' }}" data-id="{{ $room->id }}">
+                                <a href="#tab-room-{{ $room->id }}"
+                                    class="nav-link {{ $room->is_active ? 'handle' : 'bg-danger text-white' }}"
+                                    data-bs-toggle="tab">
+                                    <x-tabler-arrows-move style="width: 0.9rem;" />
                                     <span>{{ $room->name }}</span>
                                 </a>
                             </li>
                         @endforeach
-
                         <li class="nav-item ms-auto">
                             <a href="#tab-write-room" class="nav-link" data-bs-toggle="tab">
                                 <x-tabler-plus style="width: 0.8rem;" />
@@ -51,7 +52,6 @@
                         <div class="tab-pane active show" id="tab-pension">
                             @include('admin.pages.pension.partials.form.pensionEdit')
                         </div>
-
                         @foreach ($rooms as $room)
                             <div class="tab-pane" id="tab-room-{{ $room->id }}">
                                 @include('admin.pages.pension.partials.form.roomEdit', $room)
@@ -84,6 +84,9 @@
             animation: 150,
             handle: '.handle',
             filter: '.filtered',
+            onMove: function(evt) {
+                return !evt.related.classList.contains('filtered');
+            },
             onEnd: function(e) {
                 const seqIdxes = [];
                 const childNodes = document.querySelectorAll(`#sortTable > li`);
