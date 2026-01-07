@@ -26,7 +26,8 @@ class AdminTravelController extends Controller
         return view('admin.pages.travel.index', $this->data);
     }
 
-    public function write(Request $req) {
+    public function write(Request $req)
+    {
         $this->data['paramData'] = $this->getParamData($req);
         return view('admin.pages.travel.write', $this->data);
     }
@@ -46,6 +47,9 @@ class AdminTravelController extends Controller
                 'setSeq' => $service->setSeq($req),
                 'addTravel' => $service->addTravel($req),
                 'setTravel' => $service->setTravel($req),
+
+                'setImagesSeq' => $service->setImagesSeq($req),
+                'deleteImages' => $service->deleteImages($req),
             };
         }
     }

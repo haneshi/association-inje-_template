@@ -3,6 +3,7 @@
 namespace App\Services\Admin\Travel;
 
 use App\Models\Travel;
+use App\Models\DataFile;
 use Illuminate\Http\Request;
 use App\Helper\ImageUploadHelper;
 use Illuminate\Support\Facades\DB;
@@ -96,7 +97,7 @@ class AdminTravelService extends AdminService
     public function setTravel(Request $req)
     {
         $travel = $this->getData(['id' => $req->id]);
-        if(!$travel) {
+        if (!$travel) {
             return $this->returnJsonData('modalAlert', [
                 'type' => 'error',
                 'title' => '관광지 수정 에러',
@@ -121,7 +122,7 @@ class AdminTravelService extends AdminService
                 $data['seq'] = Travel::active()->count() + 1;
             }
 
-            if($req->hasFile('images')) {
+            if ($req->hasFile('images')) {
                 $images = $req->file('images');
                 $imagesCount = count($images);
 
@@ -141,7 +142,7 @@ class AdminTravelService extends AdminService
                 }
             }
 
-            if($travel->update($data)) {
+            if ($travel->update($data)) {
                 DB::commit();
                 return $this->returnJsonData('toastAlert', [
                     'type' => 'success',
@@ -192,6 +193,63 @@ class AdminTravelService extends AdminService
         foreach ($data['seqIdxes'] as $id) {
             Travel::where('id', $id)->update([
                 'seq' => $count
+            ]);
+            $count++;
+        }
+        return $this->returnJsonData('toastAlert', [
+            'type' => 'success',
+            'delay' => 1000,
+            'delayMask' => true,
+            'title' => '순서가 변경 되었습니다.',
+            'event' => [
+                'type' => 'reload',
+            ],
+        ]);
+    }
+
+    public function deleteImages(Request $req)
+    {
+        $data = $req->only('id');
+        $dataFile = DataFile::find($data['id']);
+        if (!$dataFile) {
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'error',
+                'title' => '이미지 삭제에러',
+                'content' => '이미 삭제된 이미지 입니다.',
+                'event' => [
+                    'type' => 'reload',
+                ]
+            ]);
+        }
+
+        $origin = $dataFile->getOriginal();
+        if ($dataFile->delete()) {
+            $this->deleteStorageData($origin['file_path']);
+            return $this->returnJsonData('toastAlert', [
+                'type' => 'success',
+                'delay' => 1000,
+                'delayMask' => true,
+                'title' => '이미지 삭제 성공',
+                'event' => [
+                    'type' => 'reload',
+                ],
+            ]);
+        }
+        return $this->returnJsonData('modalAlert', [
+            'type' => 'error',
+            'title' => "이미지 삭제 에러",
+            'content' => "이미지 삭제 되지 않았습니다."
+        ]);
+    }
+
+
+    public function setImagesSeq(Request $req)
+    {
+        $data = $req->except(['pType']);
+        $count = 1;
+        foreach ($data['seqIdxes'] as $id) {
+            DataFile::where('id', $id)->update([
+                'seq' => $count,
             ]);
             $count++;
         }
