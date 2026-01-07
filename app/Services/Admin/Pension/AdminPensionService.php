@@ -248,7 +248,7 @@ class AdminPensionService extends AdminService
     }
 
     public function setRoom(Request $req)
-    { ## 수정로직 됨 UI UX 사용유무에 따른 객실 nav 위치나 순서 바꿀 수 있는지
+    {
         $pension = $this->getPension($req->pension_id);
         $room = $this->getRoom($req->id);
         if (!$pension || !$room) {

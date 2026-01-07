@@ -8,20 +8,22 @@
             </div>
             <div class="card-body">
                 <form id="frm" autocomplete="off" novalidate>
-                    <input type="hidden" name="pType" value="addTravel">
+                    <input type="hidden" name="pType" value="setTravel">
+                    <input type="hidden" name="id" value="{{ $travel->id }}">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="form-control-label">관광지 이름<span
                                         class="text-danger">*</span></label>
                                 <input class="form-control" type="text" id="name" name="name"
-                                    placeholder="관광지 이름을 입력해주세요" required>
+                                    value="{{ $travel->name }}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name_eng" class="form-control-label">영문 이름</label>
-                                <input class="form-control" type="text" id="name_eng" name="name_eng" required>
+                                <input class="form-control" type="text" id="name_eng" name="name_eng"
+                                    value="{{ $travel->name_eng }}" required>
                             </div>
                         </div>
                     </div>
@@ -29,14 +31,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_basic" class="form-control-label">주소</label>
-                                <input class="form-control" type="text" id="address_basic" name="address_basic" onclick="searchPostcode()" required>
+                                <input class="form-control" value="{{ $travel->address_basic }}" type="text"
+                                    id="address_basic" name="address_basic" onclick="searchPostcode()" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_detail" class="form-control-label">상세 주소</label>
                                 <input class="form-control" type="address_detail" id="address_detail"
-                                    name="address_detail" required>
+                                    name="address_detail" value="{{ $travel->address_detail }}">
                                 <input type="hidden" class="form-control" id="post" name="post">
                                 <input type="hidden" class="form-control" id="address_local" name="address_local">
                                 <input type="hidden" class="form-control" id="address_jibun" name="address_jibun">
@@ -48,11 +51,14 @@
                     <div class="row">
                         <div class="mb-3">
                             <label for="content" class="form-label">관광지 소개</label>
-                            <textarea class="form-control" id="content" name="content" rows="5"></textarea>
+                            <textarea class="form-control" id="content" name="content" rows="5">{{ $travel->content }}</textarea>
                         </div>
                         <div class="mb-3">
                             <div class="d-flex align-items-center">
                                 <p class="mb-0">관광지 이미지</p>
+                            </div>
+                            <div class="mb-1 p-2">
+                                @include('admin.pages.travel.partials.photos', ['files' => $travel->files])
                             </div>
                             <div class="mb-1 p-2 bg-gradient-warning text-white opacity-8">
                                 <small>최대 5개 이미지 업로드 가능 (최대 10MB, 이미지 파일만 허용)</small><br>
@@ -65,7 +71,7 @@
                         <div class="form-group">
                             <div class="form-check form-switch">
                                 <input class="form-check-input ms-auto mt-1" type="checkbox" id="is_active"
-                                    name="is_active">
+                                    name="is_active" @if ($travel->is_active) checked @endif>
                                 <label class="form-check-label ms-2" for="is_active">사용유무</label>
                             </div>
                         </div>
@@ -73,7 +79,7 @@
                     <hr class="horizontal dark">
                     <div class="d-flex justify-content-end gap-2">
                         <a href="{{ route('admin.travel', $paramData) }}" class="btn btn-outline-secondary">목록으로</a>
-                        <button id="submitBtn" type="submit" class="btn btn bg-gradient-warning">관광지 추가</button>
+                        <button id="submitBtn" type="submit" class="btn btn bg-gradient-warning">관광지 수정</button>
                     </div>
                 </form>
             </div>
@@ -123,7 +129,7 @@
                 }, ])
                 .addField('#name_eng', [{
                     rule: 'customRegexp',
-                    value: /^[a-zA-Z0-9]+$/,
+                    value: /^[a-zA-Z0-9\s]+$/,
                     errorMessage: '영문과 숫자만 입력 가능합니다.',
                 }, ]);
 
