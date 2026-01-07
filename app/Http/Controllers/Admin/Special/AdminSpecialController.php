@@ -20,7 +20,17 @@ class AdminSpecialController extends Controller
     {
         $this->data['paramData'] = $this->getParamData($req);
         $service = new AdminSpecialService();
-        $this->data['dataList'] = $this->getList($this->data);
+        $this->data['dataList'] = $service->getList($this->data);
         return view('admin.pages.special.index', $this->data);
+    }
+
+    public function data(Request $req)
+    {
+        if($req->ajax() && $req->isMethod('post')) {
+            $service = new AdminSpecialService();
+            return match ($req->pType) {
+                'setSeq' => $service->setSeq($req),
+            };
+        }
     }
 }

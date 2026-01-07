@@ -83,5 +83,6 @@ Route::middleware('auth.check')
                 Route::get('/', 'index')->name('admin.special');
                 Route::get('/write', 'write')->name('admin.special.write');
                 Route::get('/{id}', 'view')->name('admin.special.view');
+                Route::post('/data', 'data')->name('admin.special.data');
             });
     });
