@@ -23,6 +23,8 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">순서
+                                </th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">관광지
                                 </th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -36,16 +38,21 @@
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortTable">
                             @forelse ($dataList as $data)
-                                <tr>
+                                <tr @if ($data->is_active) data-id="{{ $data->id }}" @endif>
+                                    @if ($data->is_active)
+                                        <td class="align-middle text-center text-sm">
+                                            <x-tabler-arrows-move style="width: 0.9rem; cursor: pointer;"
+                                                class="handle" />
+                                        </td>
+                                    @endif
                                     <td>
-                                        <a href="{{ route('admin.travel.view', ['id' => $data->id] + request()->query()) }}">
+                                        <a
+                                            href="{{ route('admin.travel.view', ['id' => $data->id] + request()->query()) }}">
                                             <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ $data->preview ?? asset('assets/img/bg/no-image.jpg') }}"
-                                                        class="avatar avatar-sm me-3">
-                                                </div>
+                                                <img src="{{ $data->preview ?? asset('assets/img/bg/no-image.jpg') }}"
+                                                    class="avatar avatar-lg me-3" style="object-fit: cover;">
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-xs">{{ $data->name }}</h6>
                                                     <p class="text-xs text-secondary mb-0">{{ $data->name_eng }}</p>
@@ -90,3 +97,29 @@
         </div>
     </div>
 </div>
+@section('afterScript')
+    <script src="{{ asset('assets/plugins/SortableJS/sortable.min.js') }}"></script>
+    <script>
+        const sortTable = document.getElementById('sortTable');
+        new Sortable(sortTable, {
+            animation: 150,
+            handle: '.handle',
+            filter: '.filtered',
+            onEnd: function(e) {
+                const seqIdxes = [];
+                const childNodes = document.querySelectorAll(`#sortTable > tr`);
+                childNodes.forEach(item => {
+                    if (item.getAttribute('data-id')) {
+                        seqIdxes.push(item.getAttribute('data-id'));
+                    }
+                });
+                if (seqIdxes.length > 1) {
+                    common.ajax.postJson('{{ route('admin.travel.data') }}', {
+                        pType: 'setSeq',
+                        seqIdxes
+                    });
+                }
+            }
+        });
+    </script>
+@endsection

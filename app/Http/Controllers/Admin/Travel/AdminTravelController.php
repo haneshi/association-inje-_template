@@ -17,11 +17,22 @@ class AdminTravelController extends Controller
         ];
     }
 
-    public function index(Request $req) {
+    public function index(Request $req)
+    {
         $this->data['paramData'] = $this->getParamData($req);
         $service = new AdminTravelService();
         $this->data['dataList'] = $service->getList($this->data);
         dump($this->data);
         return view('admin.pages.travel.index', $this->data);
+    }
+
+    public function data(Request $req)
+    {
+        if ($req->ajax() && $req->isMethod('post')) {
+            $service = new AdminTravelService();
+            return match ($req->pType) {
+                'setSeq' => $service->setSeq($req),
+            };
+        }
     }
 }

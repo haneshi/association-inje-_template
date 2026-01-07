@@ -147,7 +147,7 @@ class AdminPensionService extends AdminService
                 $data['seq'] = Pension::active()->count() + 1;
             }
             // 순서 변경로직
-            $this->setSeq($pension, $data);
+            $this->setPensionSeq($pension, $data);
             if ($pension->update($data)) {
                 DB::commit();
                 return $this->returnJsonData('toastAlert', [
@@ -334,6 +334,27 @@ class AdminPensionService extends AdminService
     }
 
     ##################### system logic
+
+    protected function setPensionSeq($row, array $data)
+    {
+        $oldSeq = $row->seq;
+        $newSeq = $data['seq'] ?? $oldSeq;
+        if ($oldSeq < $newSeq) {
+            $row->where('is_active', true)
+                ->where('id', '!=', $row->id)
+                ->where('seq', '>', $row->seq)
+                ->where('seq', '<=', $data['seq'])
+                ->decrement('seq');
+        } else {
+            $row->where('is_active', true)
+                ->where('id', '!=', $row->id)
+                ->where('seq', '<', $row->seq)
+                ->where('seq', '>=', $data['seq'])
+                ->increment('seq');
+        }
+        $row->seq = $newSeq;
+    }
+
     public function deleteImages(Request $req)
     {
         $data = $req->only('id');
