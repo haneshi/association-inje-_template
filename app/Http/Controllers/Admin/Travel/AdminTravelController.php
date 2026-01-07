@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin\Travel;
 
 use App\Models\Travel;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\AdminController;
 use App\Services\Admin\Travel\AdminTravelService;
 
-class AdminTravelController extends Controller
+class AdminTravelController extends AdminController
 {
     //
     private function getParamData(Request $req): array

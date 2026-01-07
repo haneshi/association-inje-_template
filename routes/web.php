@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Home\AdminHomeController;
 use App\Http\Controllers\Admin\Travel\AdminTravelController;
 use App\Http\Controllers\Admin\Pension\AdminPensionController;
 use App\Http\Controllers\Admin\Setting\AdminSettingController;
+use App\Http\Controllers\Admin\Special\AdminSpecialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,5 +74,14 @@ Route::middleware('auth.check')
                 Route::get('/write', 'write')->name('admin.travel.write');
                 Route::get('/{id}', 'view')->name('admin.travel.view');
                 Route::post('/data', 'data')->name('admin.travel.data');
+            });
+
+        ############# special
+        Route::controller(AdminSpecialController::class)
+            ->prefix('special')
+            ->group(function () {
+                Route::get('/', 'index')->name('admin.special');
+                Route::get('/write', 'write')->name('admin.special.write');
+                Route::get('/{id}', 'view')->name('admin.special.view');
             });
     });

@@ -46,6 +46,8 @@
                                             <x-tabler-arrows-move style="width: 0.9rem; cursor: pointer;"
                                                 class="handle" />
                                         </td>
+                                    @else
+                                        <td></td>
                                     @endif
                                     <td>
                                         <a
