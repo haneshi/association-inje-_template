@@ -39,7 +39,7 @@
                                         <td></td>
                                     @endif
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $data->board_name }}</p>
+                                        <a href="{{ route('admin.setting.board.view', $data->id) }}"><p class="text-xs font-weight-bold mb-0">{{ $data->board_name }}</p></a>
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <span

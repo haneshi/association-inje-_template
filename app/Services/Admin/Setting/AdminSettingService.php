@@ -211,9 +211,11 @@ class AdminSettingService extends AdminService
         if ($data['is_active'] === true) {
             $data['seq'] = Board::where('is_active', 1)->count() + 1;
         }
+        DB::beginTransaction();
         try {
             $row = Board::create($data);
             if ($row) {
+                DB::commit();
                 $row->setHistoryLog([
                     'type' => 'create',
                     'description' => "게시판 추가",
@@ -233,6 +235,7 @@ class AdminSettingService extends AdminService
                 ]);
             }
         } catch (\Exception $e) {
+            DB::rollBack();
             $boardLog = new Board();
             $boardLog->setHistoryLog([
                 'type' => 'error',
@@ -245,6 +248,67 @@ class AdminSettingService extends AdminService
                 'type' => 'error',
                 'title' => "게시판 추가 에러",
                 'content' => "게시판이 추가 되지 않았습니다. <br> 관리자에게 문의해 주세요!",
+            ]);
+        }
+    }
+
+    public function setBoard(Request $req)
+    {
+        $data = $req->except(['pType']);
+        $board = Board::find($data['id']);
+        if (!$board) {
+            return $this->returnJsonData('modalAlert', [
+                'title' => "게시판 수정 에러",
+                'content' => "삭제된 게시판 입니다.",
+                'event' => [
+                    'type' => 'replace',
+                    'url' => route('admin.setting.board'),
+                ],
+            ]);
+        }
+        $data['is_fixed'] = $req->boolean('is_fixed');
+        $data['is_secret'] = $req->boolean('is_secret');
+        $data['is_comment'] = $req->boolean('is_comment');
+        $data['is_period'] = $req->boolean('is_period');
+        $data['is_active'] = $req->boolean('is_active');
+        if ($data['is_active'] === true) {
+            $data['seq'] = Board::where('is_active', 1)->count() + 1;
+        }
+        DB::beginTransaction();
+        try {
+            if ($board->update($data)) {
+                DB::commit();
+                $board->setHistoryLog([
+                    'type' => 'create',
+                    'description' => "게시판 수정",
+                    'queryData' => $this->json_encode($data),
+                    'rowData' => $this->json_encode($board)
+                ], $this->user());
+
+                return $this->returnJsonData('toastAlert', [
+                    'type' => 'success',
+                    'delay' => 1000,
+                    'delayMask' => true,
+                    'content' => "게시판이 수정 되었습니다.",
+                    'event' => [
+                        'type' => 'reload',
+                    ],
+                ]);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $boardLog = new Board();
+            $boardLog->setHistoryLog([
+                'type' => 'error',
+                'description' => "게시판 수정 에러",
+                'queryData' => $this->json_encode($data),
+                'rowData' => JsonEncode(['error' => $e->getMessage()]),
+            ], $this->user());
+
+            return $this->returnJsonData('modalAlert', [
+                'type' => 'error',
+                'title' => "게시판 수정 에러",
+                'content' => "게시판이 수정 되지 않았습니다. <br> 관리자에게 문의해 주세요!",
             ]);
         }
     }

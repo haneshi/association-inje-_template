@@ -57,7 +57,7 @@
             @if(isset($boards) && $boards->isNotEmpty())
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.board*') ? 'active' : '' }}" data-bs-toggle="collapse"
-                        href="#communityCollapse" role="button" aria-expanded="false" aria-controls="communityCollapse">
+                        href="#boardCollapse" role="button" aria-expanded="false" aria-controls="boardCollapse">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <x-tabler-book />
@@ -66,7 +66,7 @@
                         <i class="fas fa-chevron-down ms-auto" style="font-size: 0.75rem; transition: transform 0.3s;"></i>
                     </a>
 
-                    <div class="collapse" id="communityCollapse">
+                    <div class="collapse" id="boardCollapse">
                         <ul class="list-unstyled ms-3">
                             @foreach($boards as $board)
                                 <li class="nav-item">

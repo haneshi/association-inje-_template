@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Models\Admin;
+use App\Models\Board;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\Services\Admin\Setting\AdminSettingService;
@@ -11,6 +12,13 @@ class AdminSettingController extends AdminController
 {
     //
 
+    private function getParamData(Request $req): array
+    {
+        return [
+            'st' => $req->input('st', null),
+            'page' => $req->input('page', null),
+        ];
+    }
     /**
      * ============================================
      *  (Admin Account Management)
@@ -62,6 +70,13 @@ class AdminSettingController extends AdminController
         return view('admin.pages.settings.board.write');
     }
 
+    public function boardView(Request $req, int $id)
+    {
+        $this->data['paramData'] = $this->getParamData($req);
+        $this->data['board'] = Board::getData(['id' => $id]);
+        return view('admin.pages.settings.board.view', $this->data);
+    }
+
     public function data(Request $req)
     {
         if ($req->ajax() && $req->isMethod('POST')) {
@@ -73,6 +88,7 @@ class AdminSettingController extends AdminController
                 "setPassword" => $dataService->setPassword($req),
 
                 'addBoard' => $dataService->addBoard($req),
+                'setBoard' => $dataService->setBoard($req),
             };
         }
     }
